@@ -1,0 +1,74 @@
+@startuml BehaviorTree
+
+!theme vibrant
+hide empty members
+
+package "Boopoo.BehaviorTree" {
+    abstract class BehaviorTree <<Mononbehaviour>> {
+        .. Attributes ..
+        - root : Node
+        - blackboard : Blackboard
+        .. Method ..
+        + Evaluate() : bool
+    }
+
+    BehaviorTree "1" o--> "*" Node : evaluates
+    BehaviorTree "1" o--> "1" Blackboard : uses
+
+    class Node {
+        .. Attributes ..
+        - parent : Node
+        - children : List<Node>
+        .. Method ..
+        + Evaluate() : bool
+    }
+
+    class Task {
+    }
+    Node <|-- Task
+
+    class Action {
+    }
+    Task <|-- Action
+
+    class Condition {
+    }
+    Task <|-- Condition
+
+    class Composite {
+    }
+    Node <|-- Composite
+
+    class Sequencer {
+    }
+    Composite <|-- Sequencer
+
+    class Selector {
+    }
+    Composite  <|-- Selector
+
+    class Decorator {
+    }
+    Node <|-- Decorator
+
+    class Repeater {
+    }
+    Decorator  <|-- Repeater
+
+    class ConditionDecorator {
+    }
+    Decorator  <|-- ConditionDecorator
+    
+
+    class Blackboard {
+        .. Attributes ..
+        - database : Dictionary<string, object>
+        .. Methods ..
+        + Set(name, object) : void
+        + Read(name) : object
+        + Update(object) : void
+        + Delete(name) : void
+    }
+}
+
+@enduml
