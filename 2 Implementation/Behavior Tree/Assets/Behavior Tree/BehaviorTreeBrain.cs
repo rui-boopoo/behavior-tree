@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Boopoo.BehaviorTrees
 {
     [RequireComponent(typeof(Blackboard))]
-    public class BehaviorTree : MonoBehaviour
+    public class BehaviorTreeBrain : MonoBehaviour
     {
         private Node _root = null;
 
