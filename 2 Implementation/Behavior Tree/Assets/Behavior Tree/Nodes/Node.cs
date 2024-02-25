@@ -30,7 +30,7 @@ namespace Boopoo.BehaviorTrees
             set => _parent = value;
         }
 
-        public IReadOnlyList<Node> children => _children;
+        public virtual IReadOnlyList<Node> children => _children;
 
         public Status status => _status;
 
