@@ -1,7 +1,6 @@
 namespace Boopoo.BehaviorTrees
 {
-    public class Action
+    public class Action : Leaf
     {
-        private Status _status = Status.Resting;
     }
 }

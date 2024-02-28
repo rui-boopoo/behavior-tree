@@ -25,16 +25,16 @@ package "Boopoo.BehaviorTree" {
         + Evaluate() : bool
     }
 
-    class Leave {
+    class Leaf {
         .. Attributes ..
         - task : Task 
     }
-    Node <|-- Leave
-    Leave "1" o--> "1" Task : dispatches
+    Node <|-- Leaf
+    Leaf "1" o--> "1" Task : dispatches
 
     class Action {
     }
-    Leave <|-- Action
+    Leaf <|-- Action
 
     class Condition {
     }

@@ -32,7 +32,11 @@ namespace Boopoo.BehaviorTrees
 
         public virtual IReadOnlyList<Node> children => _children;
 
-        public Status status => _status;
+        public Status status
+        {
+            get => _status;
+            private set => _status = value;
+        }
 
         #endregion
 
@@ -42,8 +46,9 @@ namespace Boopoo.BehaviorTrees
         // update status and evaluate node
         public Status Evaluate(Component agent, Blackboard blackboard)
         {
-            _status = Status.Running;
-            return OnEvaluate(agent, blackboard);
+            status = Status.Running;
+            status = OnEvaluate(agent, blackboard);
+            return status;
         }
 
         public void AddChild(Node node)

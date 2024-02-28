@@ -36,7 +36,7 @@ namespace Boopoo.BehaviorTrees.Tests
         {
             _blackboard.Write(_key, _value);
             float newValue = 2.5f;
-            _blackboard.Write(_key, newValue); // ³¢ÊÔ¸üÐÂÖµ
+            _blackboard.Write(_key, newValue);
             Assert.AreEqual(newValue, _blackboard.Read<float>(_key));
         }
 

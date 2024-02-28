@@ -1,6 +1,6 @@
 namespace Boopoo.BehaviorTrees
 {
-    public class Condition
+    public class Condition : Leaf
     {
     }
 }
