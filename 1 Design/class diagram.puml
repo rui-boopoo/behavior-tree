@@ -6,8 +6,10 @@ hide empty members
 package "Boopoo.BehaviorTree" {
     abstract class BehaviorTree <<Mononbehaviour>> {
         .. Attributes ..
+        - name : string
         - root : Node
-        - blackboard : Blackboard
+        - blackboards : Blackboard
+        - parent : BehaviorTree
         .. Method ..
         + Evaluate() : bool
     }
@@ -23,17 +25,20 @@ package "Boopoo.BehaviorTree" {
         + Evaluate() : bool
     }
 
-    class Task {
+    class Leaf {
+        .. Attributes ..
+        - task : Task 
     }
-    Node <|-- Task
+    Node <|-- Leaf
+    Leaf "1" o--> "1" Task : dispatches
 
     class Action {
     }
-    Task <|-- Action
+    Leaf <|-- Action
 
     class Condition {
     }
-    Task <|-- Condition
+    Leave <|-- Condition
 
     class Composite {
     }
@@ -46,6 +51,12 @@ package "Boopoo.BehaviorTree" {
     class Selector {
     }
     Composite  <|-- Selector
+    
+    class Subtree {
+        .. Attributes ..
+        - behaviorTree : BehaviorTree
+    }
+    Composite <|-- Subtree
 
     class Decorator {
     }
@@ -59,6 +70,16 @@ package "Boopoo.BehaviorTree" {
     }
     Decorator  <|-- ConditionDecorator
     
+    class Task{
+    }
+
+    class ActionTask{
+    }
+    Task <|-- ActionTask
+
+    class ConditionTask{
+    }
+    Task <|-- ConditionTask
 
     class Blackboard {
         .. Attributes ..

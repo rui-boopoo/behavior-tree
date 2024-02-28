@@ -6,10 +6,19 @@ namespace Boopoo.BehaviorTrees
     [RequireComponent(typeof(Blackboard))]
     public class BehaviorTreeBrain : MonoBehaviour
     {
-        private Node _root = null;
+        private BehaviorTree _behaviorTree;
 
         private Component _agent;
         private Blackboard _blackboard;
+
+        public BehaviorTree behaviorTree
+        {
+            get => _behaviorTree;
+            protected set => _behaviorTree = value;
+        }
+
+        // private Node _root;
+        //
 
         #region Propety
 
@@ -24,10 +33,6 @@ namespace Boopoo.BehaviorTrees
         [UsedImplicitly]
         private void Awake()
         {
-            string errorMessage = Initialize();
-            bool initializationSucceed = errorMessage == null;
-            if (!initializationSucceed) throw new System.Exception(errorMessage);
-
             _agent = this;
             _blackboard = GetComponent<Blackboard>();
         }
@@ -35,27 +40,16 @@ namespace Boopoo.BehaviorTrees
         [UsedImplicitly]
         private void Update()
         {
-            Evaluate(agent, blackboard);
+            behaviorTree?.Update();
+        }
+
+
+        public void Initialize<TBehaviorTree>() where TBehaviorTree : BehaviorTree, new()
+        {
+            var tree = BehaviorTree.CreateInstance<TBehaviorTree>(agent, blackboard);
+            behaviorTree = tree;
         }
 
         #endregion
-
-        private void Evaluate(Component agent, Blackboard blackboard)
-        {
-            _root.Evaluate(agent, blackboard);
-        }
-
-        private string Initialize()
-        {
-            return OnInitialize();
-        }
-
-        // implementation of Initialize,
-        // set up root node and construct graph codely in this function
-        // return is the error message, if all good return null
-        protected virtual string OnInitialize()
-        {
-            return null;
-        }
     }
 }
