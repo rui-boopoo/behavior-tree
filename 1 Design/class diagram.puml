@@ -4,7 +4,7 @@
 hide empty members
 
 package "Boopoo.BehaviorTree" {
-    abstract class BehaviorTree <<Mononbehaviour>> {
+    abstract class BehaviorTree <<MonoBehaviour>> {
         .. Attributes ..
         - name : string
         - root : Node
