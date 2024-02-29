@@ -1,0 +1,91 @@
+@startuml Demo
+
+!theme vibrant
+hide empty members
+
+class Recipe <<ScriptableObject>> {
+    - ingredients : List<Ingredient>
+}
+
+class IngredientHandler <<MonoBehaviour>> {
+    - Ingredient : Ingredient
+}
+
+class Ingredient <<ScriptableObject>> {
+    - name : string
+    - prefab : GameObject 
+}
+Recipe o-- Ingredient
+IngredientHandler --> Ingredient
+IHandHoldable <|-- Ingredient
+ITableInteractable <|-- Ingredient
+
+' Plate: Can be held in hand, placed on a table.
+
+' RawIngredientHandler: Can be held in hand, placed on a table.
+'   Seaweed
+'   Salmon
+'   Rice
+
+' PreparedIngredientHandler: Can be held in hand, placed on a table, placed on a plate.
+'   Chopped Salmon
+'   Steamed Rice
+
+' Table: Can place items on it, can remove items from it.
+'   Empty Table: Placement (can place items that can be placed on a table), Removal (remove currently existing items).
+'   Ingredient Table: Placement (cannot place items); Removal (obtain specific ingredients).
+'   Utensil Table: Placement (for cooking); Removal (retrieve placable items).
+'   Serve Table: Placement (submit orders); Removal (cannot remove items).
+
+interface IHandHoldable {
+    + HoldInHand();
+}
+
+interface ITableInteractable {
+    + PlaceOnTable();
+    + RemoveFromTable();
+}
+
+interface IPlatePlaceable {
+    + PlaceOnPlate();
+}
+
+class Plate <<MonoBehaviour>> {
+}
+IHandHoldable <|-- Plate
+ITableInteractable <|-- Plate
+
+class RawIngredientHandler <<MonoBehaviour>> {
+}
+IngredientHandler <|-- RawIngredientHandler
+
+class PreparedIngredientHandler <<MonoBehaviour>> {
+}
+IngredientHandler <|-- PreparedIngredientHandler
+IPlatePlaceable <|-- PreparedIngredientHandler
+
+abstract Table <<MonoBehaviour>> {
+    .. Attributes ..
+    - object : ITableInteractable
+    .. Methods ..
+    + Place() : bool
+    + Remove() : bool
+}
+
+class EmptyTable {
+}
+Table <|-- EmptyTable
+
+class IngredientTable {
+}
+Table <|-- IngredientTable
+
+class UtensilTable {
+}
+Table <|-- UtensilTable
+
+class ServeTable {
+}
+Table <|-- ServeTable
+
+@enduml
