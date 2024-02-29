@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ServeTable : Table
 {
     [SerializeField] private Plate _input;
-    
+
     public override bool Interact(Component item)
     {
-        // TODO: Finished a quest when serves
-        return Place(item, _input);
+        if (item == null || item is not Plate plate) return false;
+        GameManager.instance.FinishOrder(plate);
+        return true;
     }
 
     public override Component Interact(out bool success)

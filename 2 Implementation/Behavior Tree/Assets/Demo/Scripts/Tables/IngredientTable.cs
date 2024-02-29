@@ -13,6 +13,7 @@ public class IngredientTable : Table
     public override Component Interact(out bool success)
     {
         IngredientHandler ingredient = Instantiate(_ingredientPrefab);
+        GameManager.instance.playerHand.Hold(ingredient);
         success = ingredient != null;
         return ingredient;
     }

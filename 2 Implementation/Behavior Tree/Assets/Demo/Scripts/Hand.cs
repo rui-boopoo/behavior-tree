@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
-    private Component _handHoldable;
+    [SerializeField] private Component _handHoldable;
 
     public System.Action<Component> ItemHoldChanged;
 

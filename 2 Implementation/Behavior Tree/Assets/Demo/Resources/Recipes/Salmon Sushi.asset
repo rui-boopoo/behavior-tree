@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3bd97101ac4ed498fc68a9e006c8b9, type: 3}
   m_Name: Salmon Sushi
   m_EditorClassIdentifier: 
-  ingredients: []
+  ingredients:
+  - {fileID: 11400000, guid: be0a93636b98da24b8147f8cd090f226, type: 2}
+  - {fileID: 11400000, guid: 0791137f1848679439d1e774f69de72e, type: 2}
+  - {fileID: 11400000, guid: fb856d149b2db0c44bc3b926b70d6883, type: 2}

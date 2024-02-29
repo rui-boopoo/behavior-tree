@@ -10,8 +10,8 @@ public abstract class IngredientHandler : MonoBehaviour, IHandHoldable, ITableIn
         protected set => _ingredient = value;
     }
 
-    public bool HoldInHand()
+    public void Initialize(Ingredient ingredient)
     {
-        throw new System.NotImplementedException();
+        this.ingredient = ingredient;
     }
 }

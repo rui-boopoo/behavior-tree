@@ -12,7 +12,7 @@ public class EmptyTable : Table
 
     public override bool Interact(Component item)
     {
-        return this.item == null && Place(item, _item);
+        return this.item == null && Place(item, ref _item);
     }
 
     public override Component Interact(out bool success)
@@ -20,7 +20,9 @@ public class EmptyTable : Table
         if (item != null)
         {
             success = true;
-            return item;
+            Component tempItem = item;
+            item = null;
+            return tempItem;
         }
 
         success = false;
