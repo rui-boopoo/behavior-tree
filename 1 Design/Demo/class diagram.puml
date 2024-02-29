@@ -17,6 +17,8 @@ class Ingredient <<ScriptableObject>> {
 }
 Recipe o-- Ingredient
 IngredientHandler --> Ingredient
+IHandHoldable <|-- Ingredient
+ITableInteractable <|-- Ingredient
 
 ' Plate: Can be held in hand, placed on a table.
 
@@ -56,18 +58,16 @@ ITableInteractable <|-- Plate
 class RawIngredientHandler <<MonoBehaviour>> {
 }
 IngredientHandler <|-- RawIngredientHandler
-IHandHoldable <|-- RawIngredientHandler
-ITableInteractable <|-- RawIngredientHandler
 
 class PreparedIngredientHandler <<MonoBehaviour>> {
 }
 IngredientHandler <|-- PreparedIngredientHandler
-IHandHoldable <|-- PreparedIngredientHandler
-ITableInteractable <|-- PreparedIngredientHandler
 IPlatePlaceable <|-- PreparedIngredientHandler
 
-class Table <<MonoBehaviour>> {
+abstract Table <<MonoBehaviour>> {
+    .. Attributes ..
     - object : ITableInteractable
+    .. Methods ..
     + Place() : bool
     + Remove() : bool
 }

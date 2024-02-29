@@ -1,18 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Ingredient : MonoBehaviour
+[CreateAssetMenu(menuName = "Cooking/Ingredient")]
+public class Ingredient : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public new string name = string.Empty;
+    public Mesh mesh;
 }
