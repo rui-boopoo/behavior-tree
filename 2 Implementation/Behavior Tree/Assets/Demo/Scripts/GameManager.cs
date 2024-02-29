@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public sealed class GameManager : MonoBehaviour
 {
@@ -61,9 +62,14 @@ public sealed class GameManager : MonoBehaviour
         _tables = new List<Table>(FindObjectsOfType<Table>());
     }
 
-    private void Start()
+    // private void Start()
+    // {
+    //     StartCoroutine(StartTest());
+    // }
+
+    private void Update()
     {
-        StartCoroutine(Test());
+        Test();
     }
 
     public void AddOrder()
@@ -117,44 +123,33 @@ public sealed class GameManager : MonoBehaviour
         return matchingCookingMethod;
     }
 
-    public IEnumerator Test()
+    public void Test()
+    {
+        if (tables.Count <= 0) return;
+        var serveTable = _tables[0] as UtensilTable;
+        if (serveTable == null) return;
+
+        var hasComponent = playerHand.TryGetComponent(out NavMeshAgent navMeshAgent);
+        if (!hasComponent) return;
+
+        Vector3 newDestination = serveTable.transform.position + serveTable.transform.forward * 1.0f;
+        navMeshAgent.SetDestination(newDestination);
+
+        if (navMeshAgent.pathPending || !(navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)) return;
+        Vector3 directionToTarget = (serveTable.transform.position - navMeshAgent.transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0, directionToTarget.z));
+        navMeshAgent.transform.rotation =
+            Quaternion.Slerp(navMeshAgent.transform.rotation, lookRotation, Time.deltaTime * 5);
+    }
+
+    public IEnumerator StartTest()
     {
         if (tables.Count <= 0) yield break;
         var serveTable = _tables[0] as UtensilTable;
         if (serveTable == null) yield break;
 
-        serveTable.Interact(out bool success);
-        Debug.Assert(success == false);
 
-        var rice = ScriptableObject.CreateInstance<Ingredient>();
-        rice.name = "Raw Rice";
-
-        var steamedRice = ScriptableObject.CreateInstance<Ingredient>();
-        steamedRice.name = "Steamed Rice";
-
-        var go = new GameObject();
-        var raw = go.AddComponent<RawIngredientHandler>();
-        raw.Initialize(rice);
-
-        Debug.Assert(raw.ingredient != null);
-
-        success = serveTable.Interact(raw);
-        Debug.Assert(success);
-
-        go = new GameObject();
-        var prepared = go.AddComponent<PreparedIngredientHandler>();
-        prepared.Initialize(steamedRice);
-
-        success = serveTable.Interact(prepared);
-        Debug.Assert(success == false);
-
-        yield return new WaitUntil(() => serveTable.canGrab);
-
-        Component preparedOutput = serveTable.Interact(out success);
-        Debug.Assert(preparedOutput != null && preparedOutput is PreparedIngredientHandler);
-        Debug.Assert(serveTable.Interact(out success) == null);
-        
-        success = serveTable.Interact(prepared);
-        Debug.Assert(success == false);
+        var navMeshAgent = playerHand.gameObject.GetComponent<NavMeshAgent>();
+        navMeshAgent.Move(serveTable.transform.position - playerHand.transform.position);
     }
 }
