@@ -62,14 +62,14 @@ public sealed class GameManager : MonoBehaviour
         _tables = new List<Table>(FindObjectsOfType<Table>());
     }
 
-    // private void Start()
-    // {
-    //     StartCoroutine(StartTest());
-    // }
+    private void Start()
+    {
+        Test();
+    }
 
     private void Update()
     {
-        Test();
+        // Test();
     }
 
     public void AddOrder()
@@ -126,20 +126,23 @@ public sealed class GameManager : MonoBehaviour
     public void Test()
     {
         if (tables.Count <= 0) return;
-        var serveTable = _tables[0] as UtensilTable;
-        if (serveTable == null) return;
+        // var serveTable = _tables[0] as UtensilTable;
+        // if (serveTable == null) return;
 
-        var hasComponent = playerHand.TryGetComponent(out NavMeshAgent navMeshAgent);
+        var hasComponent = playerHand.TryGetComponent(out PlayerController playerController);
         if (!hasComponent) return;
 
-        Vector3 newDestination = serveTable.transform.position + serveTable.transform.forward * 1.0f;
-        navMeshAgent.SetDestination(newDestination);
+        playerController.MoveToTable(_tables[0]);
 
-        if (navMeshAgent.pathPending || !(navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)) return;
-        Vector3 directionToTarget = (serveTable.transform.position - navMeshAgent.transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0, directionToTarget.z));
-        navMeshAgent.transform.rotation =
-            Quaternion.Slerp(navMeshAgent.transform.rotation, lookRotation, Time.deltaTime * 5);
+        // playerHand.GetComponent<NavMeshAgent>().SetDestination(new Vector3(6.5f, 0, -3));
+        // Vector3 newDestination = serveTable.transform.position + serveTable.transform.forward * 1.0f;
+        // navMeshAgent.SetDestination(newDestination);
+        //
+        // if (navMeshAgent.pathPending || !(navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)) return;
+        // Vector3 directionToTarget = (serveTable.transform.position - navMeshAgent.transform.position).normalized;
+        // Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0, directionToTarget.z));
+        // navMeshAgent.transform.rotation =
+        //     Quaternion.Slerp(navMeshAgent.transform.rotation, lookRotation, Time.deltaTime * 5);
     }
 
     public IEnumerator StartTest()
