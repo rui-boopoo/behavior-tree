@@ -17,4 +17,4 @@ MonoBehaviour:
   ingredientOutput: {fileID: 11400000, guid: 0791137f1848679439d1e774f69de72e, type: 2}
   outputPrefab: {fileID: 4018476362450785888, guid: d354cef81d1ed8b4dab6aff02d2fdb07,
     type: 3}
-  timeToCook: 2
+  timeToCook: 2.5

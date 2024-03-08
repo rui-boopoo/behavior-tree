@@ -1,9 +1,8 @@
-using JetBrains.Annotations;
 using System.Collections;
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
 
 public sealed class GameManager : MonoBehaviour
 {
@@ -27,25 +26,17 @@ public sealed class GameManager : MonoBehaviour
 
     #region Propety
 
-    public List<Recipe> recipes
-    {
-        get => _recipes;
-        private set => _recipes = value;
-    }
-
     public Hand playerHand
     {
         get => _playerHand;
         set => _playerHand = value;
     }
 
-    public List<Table> tables
-    {
-        get => _tables;
-        private set => _tables = value;
-    }
+    public List<Table> tables => _tables;
 
     public static GameManager instance => _instance;
+
+    public IReadOnlyList<Recipe> orders => _orders;
 
     #endregion
 
@@ -60,17 +51,9 @@ public sealed class GameManager : MonoBehaviour
         }
 
         _tables = new List<Table>(FindObjectsOfType<Table>());
+        AddOrder();
     }
 
-    private void Start()
-    {
-        Test();
-    }
-
-    private void Update()
-    {
-        // Test();
-    }
 
     public void AddOrder()
     {
@@ -121,38 +104,5 @@ public sealed class GameManager : MonoBehaviour
             method.ingredientInput.name.Equals(currentIngredient.name));
 
         return matchingCookingMethod;
-    }
-
-    public void Test()
-    {
-        if (tables.Count <= 0) return;
-        // var serveTable = _tables[0] as UtensilTable;
-        // if (serveTable == null) return;
-
-        var hasComponent = playerHand.TryGetComponent(out PlayerController playerController);
-        if (!hasComponent) return;
-
-        playerController.MoveToTable(_tables[0]);
-
-        // playerHand.GetComponent<NavMeshAgent>().SetDestination(new Vector3(6.5f, 0, -3));
-        // Vector3 newDestination = serveTable.transform.position + serveTable.transform.forward * 1.0f;
-        // navMeshAgent.SetDestination(newDestination);
-        //
-        // if (navMeshAgent.pathPending || !(navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)) return;
-        // Vector3 directionToTarget = (serveTable.transform.position - navMeshAgent.transform.position).normalized;
-        // Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0, directionToTarget.z));
-        // navMeshAgent.transform.rotation =
-        //     Quaternion.Slerp(navMeshAgent.transform.rotation, lookRotation, Time.deltaTime * 5);
-    }
-
-    public IEnumerator StartTest()
-    {
-        if (tables.Count <= 0) yield break;
-        var serveTable = _tables[0] as UtensilTable;
-        if (serveTable == null) yield break;
-
-
-        var navMeshAgent = playerHand.gameObject.GetComponent<NavMeshAgent>();
-        navMeshAgent.Move(serveTable.transform.position - playerHand.transform.position);
     }
 }

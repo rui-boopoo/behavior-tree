@@ -35,19 +35,28 @@ namespace Boopoo.BehaviorTrees
         {
             _agent = this;
             _blackboard = GetComponent<Blackboard>();
+            OnAwake();
         }
 
         [UsedImplicitly]
         private void Update()
         {
             behaviorTree?.Update();
+            OnUpdate();
         }
-
 
         public void Initialize<TBehaviorTree>() where TBehaviorTree : BehaviorTree, new()
         {
             var tree = BehaviorTree.CreateInstance<TBehaviorTree>(agent, blackboard);
             behaviorTree = tree;
+        }
+
+        protected virtual void OnAwake()
+        {
+        }
+
+        protected virtual void OnUpdate()
+        {
         }
 
         #endregion
