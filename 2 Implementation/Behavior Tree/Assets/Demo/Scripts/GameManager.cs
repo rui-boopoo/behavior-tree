@@ -47,6 +47,8 @@ public sealed class GameManager : MonoBehaviour
 
     public static GameManager instance => _instance;
 
+    public IReadOnlyList<Recipe> orders => _orders;
+
     #endregion
 
     [UsedImplicitly]
@@ -60,11 +62,12 @@ public sealed class GameManager : MonoBehaviour
         }
 
         _tables = new List<Table>(FindObjectsOfType<Table>());
+        AddOrder();
     }
 
     private void Start()
     {
-        Test();
+        // Test();
     }
 
     private void Update()

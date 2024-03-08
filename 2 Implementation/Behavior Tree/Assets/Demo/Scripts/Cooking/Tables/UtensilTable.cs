@@ -20,13 +20,13 @@ public class UtensilTable : Table
     private void Update()
     {
         if (!_isCooking) return;
+
         _cookingTimer += Time.deltaTime;
 
         if (!(_cookingTimer >= _timeToCook)) return;
-
+        _isCooking = false;
         Destroy(_inputHandler.gameObject);
         _outputHandler.gameObject.SetActive(true);
-        Reset();
     }
 
     public override bool Interact(Component item)
@@ -53,7 +53,7 @@ public class UtensilTable : Table
         {
             success = true;
             Component outputHandler = _outputHandler;
-            _outputHandler = null;
+            Reset();
             return outputHandler;
         }
 
