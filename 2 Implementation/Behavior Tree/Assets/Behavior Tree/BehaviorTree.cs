@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace Boopoo.BehaviorTrees
@@ -55,10 +57,16 @@ namespace Boopoo.BehaviorTrees
             return null;
         }
 
-        public static TBehaviorTree CreateInstance<TBehaviorTree>(Component agent, Blackboard blackboard)
-            where TBehaviorTree : BehaviorTree, new()
+        public static TBehaviorTree CreateInstance<TBehaviorTree>(Component agent, Blackboard blackboard,
+            params object[] args)
+            where TBehaviorTree : BehaviorTree
         {
-            var tree = (TBehaviorTree)Activator.CreateInstance(typeof(TBehaviorTree));
+            Type type = typeof(TBehaviorTree);
+            ConstructorInfo constructor = type.GetConstructor(args.Select(a => a.GetType()).ToArray());
+            if (constructor == null) throw new InvalidOperationException("No matching constructor found.");
+
+            // var tree = (TBehaviorTree)Activator.CreateInstance(typeof(TBehaviorTree));
+            var tree = (TBehaviorTree)constructor.Invoke(args);
             tree.agent = agent;
             tree.blackboard = blackboard;
 
