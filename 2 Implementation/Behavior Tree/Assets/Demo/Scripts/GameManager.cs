@@ -1,3 +1,4 @@
+using System.Collections;
 using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,7 @@ public sealed class GameManager : MonoBehaviour
         _tables = new List<Table>(FindObjectsOfType<Table>());
         AddOrder();
     }
+
 
     public void AddOrder()
     {

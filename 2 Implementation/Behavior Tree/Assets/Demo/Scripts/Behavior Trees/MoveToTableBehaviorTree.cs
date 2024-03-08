@@ -19,12 +19,19 @@ public class MoveToTableBehaviorTree<TTable> : BehaviorTree where TTable : Table
         sequence.AddChild(condition);
 
         var displayActionName = new DisplayCurrentActionName("Move to Table");
-        var action = new Action(displayActionName);
-        sequence.AddChild(action);
+        sequence.AddChild(new Action(displayActionName));
+
+        var showGoal = new ShowGoal(_tableName);
+        sequence.AddChild(new Action(showGoal));
 
         var moveToTable = new MoveToTable(_tableName);
-        action = new Action(moveToTable);
-        sequence.AddChild(action);
+        sequence.AddChild(new Action(moveToTable));
+
+        showGoal = new ShowGoal(_tableName, false);
+        sequence.AddChild(new Action(showGoal));
+        
+        var waitForSeconds = new WaitForSeconds(1.0f);
+        sequence.AddChild(new Action(waitForSeconds));
 
         root = sequence;
 

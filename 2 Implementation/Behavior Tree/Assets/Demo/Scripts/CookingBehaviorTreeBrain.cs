@@ -8,6 +8,7 @@ public class CookingBehaviorTreeBrain : BehaviorTreeBrain
 
     [SerializeField] private Hand _hand = null;
     [SerializeField] private TextMeshPro _currentActionTextRef = null;
+    [SerializeField] private GoalIndicatorManager _goalIndicatorManager = null;
 
     protected override void OnAwake()
     {
@@ -26,6 +27,8 @@ public class CookingBehaviorTreeBrain : BehaviorTreeBrain
         blackboard.Write("Current Order", GameManager.instance.orders[0]);
 
         blackboard.Write("Current Action Text", _currentActionTextRef);
+
+        blackboard.Write("Goal Indicator", _goalIndicatorManager);
 
         blackboard.Print();
     }

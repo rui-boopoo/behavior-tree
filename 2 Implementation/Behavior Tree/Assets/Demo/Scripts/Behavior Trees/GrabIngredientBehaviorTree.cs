@@ -21,6 +21,15 @@ public class GrabIngredientBehaviorTree<TTable> : BehaviorTree where TTable : Ta
         var grabIngredient = new GrabIngredient<TTable>(_tableKey, _itemKey);
         sequence.AddChild(new Action(grabIngredient));
 
+        var waitForSeconds = new WaitForSeconds(1f);
+        sequence.AddChild(new Action(waitForSeconds));
+
+        displayActionName = new DisplayCurrentActionName("Grab Ingredient :)");
+        sequence.AddChild(new Action(displayActionName));
+
+        waitForSeconds = new WaitForSeconds(1.5f);
+        sequence.AddChild(new Action(waitForSeconds));
+
         root = sequence;
         return null;
     }

@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class UtensilTable : Table
 {
